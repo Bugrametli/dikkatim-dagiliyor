@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../application/scan_controller.dart';
+import '../../onboarding/data/onboarding_repository.dart';
 
 class ScanScreen extends ConsumerWidget {
   const ScanScreen({super.key});
@@ -9,10 +10,12 @@ class ScanScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Listen for state changes to navigate when data is ready
-    ref.listen(scanControllerProvider, (previous, next) {
+    ref.listen(scanControllerProvider, (previous, next) async {
       if (!context.mounted) return;
       if (next.hasValue && !next.isLoading && next.value!.isNotEmpty) {
-        context.go('/results');
+        if (context.mounted) {
+          context.go('/results');
+        }
       } else if (next.hasError) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Hata: ${next.error}')),

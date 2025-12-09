@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../app_analysis/application/scan_controller.dart';
+import '../../app_analysis/domain/app_entity.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedIndex = 0;
 
 
@@ -15,6 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // Fetch data if empty (e.g., app restarted and skipped onboarding)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final scanState = ref.read(scanControllerProvider);
+      if (!scanState.isLoading && (scanState.value?.isEmpty ?? true)) {
+        ref.read(scanControllerProvider.notifier).scanApps();
+      }
+    });
   }
 
   void _onItemTapped(int index) {
@@ -83,39 +93,72 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildHomeTab() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          _buildScoreCard(),
-          const SizedBox(height: 24),
-          // Short summary for Home Tab
-           _buildSection(
-            title: 'Bugünün Özeti',
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(16),
+    final scanState = ref.watch(scanControllerProvider);
+
+    return scanState.when(
+      data: (apps) {
+        if (apps.isEmpty) {
+          return const Center(child: Text('Henüz veri yok.'));
+        }
+
+        final dangerousApps = apps.where((app) => app.dangerLevel >= 3).toList();
+        final riskyApps = apps.where((app) => app.dangerLevel == 2).toList();
+        final safeApps = apps.where((app) => app.dangerLevel <= 1).toList();
+
+        return DefaultTabController(
+          length: 3,
+          child: Column(
+            children: [
+              Container(
+                color: Colors.white,
+                child: const TabBar(
+                  labelColor: Colors.deepPurple,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Colors.deepPurple,
+                  tabs: [
+                    Tab(text: 'Tehlikeli'),
+                    Tab(text: 'Riskli'),
+                    Tab(text: 'Güvenli'),
+                  ],
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Kullanım Süresi', style: TextStyle(color: Colors.grey)),
-                      SizedBox(height: 4),
-                      Text('4sa 12dk', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                  const Icon(Icons.timelapse, size: 40, color: Colors.blue),
-                ],
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    _buildAppList(dangerousApps),
+                    _buildAppList(riskyApps),
+                    _buildAppList(safeApps),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Hata: $err')),
+    );
+  }
+
+  Widget _buildAppList(List<AppEntity> apps) {
+    if (apps.isEmpty) {
+      return const Center(child: Text('Bu kategoride uygulama yok.'));
+    }
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
+      itemCount: apps.length,
+      separatorBuilder: (context, index) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        final app = apps[index];
+        return ListTile(
+          leading: app.iconUrl.isNotEmpty
+              ? Image.network(app.iconUrl, width: 40, height: 40, errorBuilder: (_,__,___) => const Icon(Icons.android))
+              : const Icon(Icons.android, size: 40),
+          title: Text(app.name, style: const TextStyle(fontWeight: FontWeight.w500)),
+          subtitle: Text(app.category ?? 'Kategori Yok'),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey.shade400),
+        );
+      },
     );
   }
 
@@ -124,6 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
+          _buildScoreCard(),
+          const SizedBox(height: 24),
           _buildSection(
             title: 'Ekran Süresi Raporu',
             child: Container(

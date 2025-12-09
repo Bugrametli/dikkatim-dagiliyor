@@ -59,9 +59,9 @@ class MockScanRepository implements ScanRepository {
       const AppEntity(
         id: 'com.twitter.android',
         name: 'X (Twitter)',
-        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg',
-        dangerLevel: 2,
-        category: 'Sosyal',
+        iconUrl: '',
+        dangerLevel: 3,
+        category: 'Haberler & Dergiler',
         usageLimit: Duration(minutes: 30),
       ),
       const AppEntity(
@@ -83,7 +83,7 @@ class MockScanRepository implements ScanRepository {
       const AppEntity(
         id: 'com.reddit.frontpage',
         name: 'Reddit',
-        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Reddit_icon.svg/1280px-Reddit_icon.svg.png',
+        iconUrl: '',
         dangerLevel: 2,
         category: 'Haberler & Dergiler',
         usageLimit: Duration(minutes: 40),
@@ -115,7 +115,7 @@ class MockScanRepository implements ScanRepository {
       const AppEntity(
         id: 'com.discord',
         name: 'Discord',
-        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Discord_Color_Text_Logo.svg/2560px-Discord_Color_Text_Logo.svg.png',
+        iconUrl: '',
         dangerLevel: 2,
         category: 'İletişim',
         usageLimit: Duration(minutes: 45),
@@ -171,7 +171,7 @@ class MockScanRepository implements ScanRepository {
       const AppEntity(
         id: 'com.duolingo',
         name: 'Duolingo',
-        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Duolingo_mascot_2019.svg/2048px-Duolingo_mascot_2019.svg.png',
+        iconUrl: '',
         dangerLevel: 1,
         category: 'Eğitim',
         usageLimit: Duration(hours: 1),
@@ -179,7 +179,7 @@ class MockScanRepository implements ScanRepository {
       const AppEntity(
         id: 'com.tinder',
         name: 'Tinder',
-        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Tinder_Logo_2017.svg/2560px-Tinder_Logo_2017.svg.png',
+        iconUrl: '',
         dangerLevel: 3,
         category: 'Yaşam Tarzı',
         usageLimit: Duration(minutes: 20),
@@ -187,7 +187,7 @@ class MockScanRepository implements ScanRepository {
       const AppEntity(
         id: 'com.bumble.app',
         name: 'Bumble',
-        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Bumble_logo.svg/2560px-Bumble_logo.svg.png',
+        iconUrl: '',
         dangerLevel: 2,
         category: 'Yaşam Tarzı',
         usageLimit: Duration(minutes: 35),
