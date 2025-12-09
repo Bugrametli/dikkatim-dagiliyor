@@ -4,7 +4,6 @@ class AppEntity {
   final String iconUrl;
   final int dangerLevel;
   final String? category;
-  final Duration usageLimit;
 
   const AppEntity({
     required this.id,
@@ -12,6 +11,5 @@ class AppEntity {
     required this.iconUrl,
     this.dangerLevel = 0,
     this.category,
-    this.usageLimit = Duration.zero,
   });
 }

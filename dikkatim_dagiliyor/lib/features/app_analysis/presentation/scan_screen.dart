@@ -14,7 +14,7 @@ class ScanScreen extends ConsumerWidget {
         context.go('/results');
       } else if (next.hasError) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Hata: ${next.error}')),
+          SnackBar(content: Text('Error: ${next.error}')),
         );
       }
     });
@@ -30,14 +30,14 @@ class ScanScreen extends ConsumerWidget {
             const Icon(Icons.security, size: 80, color: Colors.deepPurple),
             const SizedBox(height: 24),
             const Text(
-              'Zararlı Uygulamaları Tara',
+              'Scan for Harmful Apps',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 32.0),
               child: Text(
-                'Yüklü uygulamaları analiz ederek çocuğunuzu koruyun.',
+                'Protect your child by analyzing installed applications.',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey),
               ),
@@ -51,7 +51,7 @@ class ScanScreen extends ConsumerWidget {
                   ref.read(scanControllerProvider.notifier).scanApps();
                 },
                 icon: const Icon(Icons.search),
-                label: const Text('Taramayı Başlat'),
+                label: const Text('Start Scan'),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                 ),
