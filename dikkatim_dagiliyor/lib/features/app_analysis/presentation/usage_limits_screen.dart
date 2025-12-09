@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../application/scan_controller.dart';
 import '../domain/app_entity.dart';
-import '../../onboarding/data/onboarding_repository.dart';
+import '../../onboarding/presentation/onboarding_controller.dart';
 
 class UsageLimitsScreen extends ConsumerWidget {
   const UsageLimitsScreen({super.key});
@@ -75,16 +75,19 @@ class UsageLimitsScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: () async {
-              // Mark onboarding as completed
-              await ref.read(onboardingRepositoryProvider).setOnboardingCompleted();
+              // Mark onboarding as complete
+              await ref.read(onboardingControllerProvider.notifier).completeOnboarding();
 
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Kurallar başarıyla uygulandı.')),
-                );
-                // navigate to home
-                context.go('/home');
-              }
+              if (!context.mounted) return;
+
+              // Apply rules and navigate to home
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Kurallar başarıyla uygulandı.')),
+              );
+              // Small delay to let the user see the message
+              Future.delayed(const Duration(seconds: 1), () {
+                if (context.mounted) context.go('/home');
+              });
             },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
