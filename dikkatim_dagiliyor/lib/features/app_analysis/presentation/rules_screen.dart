@@ -153,7 +153,7 @@ class _AppListTile extends StatelessWidget {
         trailing: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: _getDangerColor(app.dangerLevel).withOpacity(0.1),
+            color: _getDangerColor(app.dangerLevel).withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: _getDangerColor(app.dangerLevel)),
           ),

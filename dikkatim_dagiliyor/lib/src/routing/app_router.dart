@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
-import '../../features/app_analysis/presentation/scan_screen.dart';
-import '../../features/app_analysis/presentation/analysis_results_screen.dart';
-import '../../features/app_analysis/presentation/rules_screen.dart';
-import '../../features/app_analysis/presentation/rules_screen.dart';
-import '../../features/app_analysis/presentation/usage_limits_screen.dart';
+import 'package:dikkatim_dagiliyor/features/app_analysis/presentation/scan_screen.dart';
+import 'package:dikkatim_dagiliyor/features/app_analysis/presentation/analysis_results_screen.dart';
+import 'package:dikkatim_dagiliyor/features/app_analysis/presentation/rules_screen.dart';
+import 'package:dikkatim_dagiliyor/features/app_analysis/presentation/usage_limits_screen.dart';
 import '../../features/dashboard/presentation/home_screen.dart';
 
 final goRouter = GoRouter(

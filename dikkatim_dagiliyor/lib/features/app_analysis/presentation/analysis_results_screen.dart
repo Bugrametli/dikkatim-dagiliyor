@@ -54,7 +54,7 @@ class _AnalysisResultsScreenState extends ConsumerState<AnalysisResultsScreen> {
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.deepPurple.withValues(alpha: 0.3),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -226,7 +226,7 @@ class _AppListTile extends StatelessWidget {
         trailing: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: _getDangerColor(app.dangerLevel).withOpacity(0.1),
+            color: _getDangerColor(app.dangerLevel).withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: _getDangerColor(app.dangerLevel)),
           ),

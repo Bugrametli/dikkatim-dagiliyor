@@ -16,9 +16,13 @@ class ScanController extends StateNotifier<AsyncValue<List<AppEntity>>> {
     try {
       final repository = ref.read(scanRepositoryProvider);
       final apps = await repository.scanInstalledApps();
-      state = AsyncValue.data(apps);
+      if (mounted) {
+        state = AsyncValue.data(apps);
+      }
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+      if (mounted) {
+        state = AsyncValue.error(e, st);
+      }
     }
   }
 }

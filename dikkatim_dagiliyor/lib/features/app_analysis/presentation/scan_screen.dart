@@ -10,6 +10,7 @@ class ScanScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Listen for state changes to navigate when data is ready
     ref.listen(scanControllerProvider, (previous, next) {
+      if (!context.mounted) return;
       if (next.hasValue && !next.isLoading && next.value!.isNotEmpty) {
         context.go('/results');
       } else if (next.hasError) {
